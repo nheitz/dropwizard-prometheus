@@ -12,11 +12,15 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.core.HttpHeaders;
+
+import static java.util.Collections.emptyMap;
 
 public class Pushgateway implements PrometheusSender {
 
@@ -81,27 +85,27 @@ public class Pushgateway implements PrometheusSender {
 
     @Override
     public void sendGauge(String name, Gauge<?> gauge) throws IOException {
-        exporter.writeGauge(name, gauge);
+        exporter.writeGauge(name, gauge, emptyMap());
     }
 
     @Override
     public void sendCounter(String name, Counter counter) throws IOException {
-        exporter.writeCounter(name, counter);
+        exporter.writeCounter(name, counter, emptyMap());
     }
 
     @Override
     public void sendHistogram(String name, Histogram histogram) throws IOException {
-        exporter.writeHistogram(name, histogram);
+        exporter.writeHistogram(name, histogram, emptyMap());
     }
 
     @Override
     public void sendMeter(String name, Meter meter) throws IOException {
-        exporter.writeMeter(name, meter);
+        exporter.writeMeter(name, meter, emptyMap());
     }
 
     @Override
     public void sendTimer(String name, Timer timer) throws IOException {
-        exporter.writeTimer(name, timer);
+        exporter.writeTimer(name, timer, emptyMap());
     }
 
     @Override
