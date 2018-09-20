@@ -106,7 +106,7 @@ class PrometheusServlet extends HttpServlet {
                 String sanitizedName = DropwizardMetricsExporter.sanitizeMetricName(lpm.getStrippedName());
 
                 if (filtered.isEmpty() || filtered.contains(sanitizedName)) {
-                    exporter.writeCounter(entry.getKey(), entry.getValue(), lpm.getLabels());
+                    exporter.writeCounter(lpm.getStrippedName(), entry.getValue(), lpm.getLabels());
                 }
             }
             for (Map.Entry<String, Histogram> entry : registry.getHistograms(filter).entrySet()) {
@@ -114,7 +114,7 @@ class PrometheusServlet extends HttpServlet {
                 String sanitizedName = DropwizardMetricsExporter.sanitizeMetricName(lpm.getStrippedName());
 
                 if (filtered.isEmpty() || filtered.contains(sanitizedName)) {
-                    exporter.writeHistogram(entry.getKey(), entry.getValue(), lpm.getLabels());
+                    exporter.writeHistogram(lpm.getStrippedName(), entry.getValue(), lpm.getLabels());
                 }
             }
             for (Map.Entry<String, Meter> entry : registry.getMeters(filter).entrySet()) {
@@ -122,7 +122,7 @@ class PrometheusServlet extends HttpServlet {
                 String sanitizedName = DropwizardMetricsExporter.sanitizeMetricName(lpm.getStrippedName());
 
                 if (filtered.isEmpty() || filtered.contains(sanitizedName)) {
-                    exporter.writeMeter(entry.getKey(), entry.getValue(), lpm.getLabels());
+                    exporter.writeMeter(lpm.getStrippedName(), entry.getValue(), lpm.getLabels());
                 }
             }
             for (Map.Entry<String, Timer> entry : registry.getTimers(filter).entrySet()) {
@@ -130,7 +130,7 @@ class PrometheusServlet extends HttpServlet {
                 String sanitizedName = DropwizardMetricsExporter.sanitizeMetricName(lpm.getStrippedName());
 
                 if (filtered.isEmpty() || filtered.contains(sanitizedName)) {
-                    exporter.writeTimer(entry.getKey(), entry.getValue(), lpm.getLabels());
+                    exporter.writeTimer(lpm.getStrippedName(), entry.getValue(), lpm.getLabels());
                 }
             }
 
