@@ -73,15 +73,16 @@ class DropwizardMetricsExporter {
                                        MetricType type, String helpMessage, Map<String, String> labels) throws IOException {
         String name = sanitizeMetricName(dropwizardName);
         Map<String, String> labelsCopy = new HashMap<>(labels);
+        String quantileName = name + "_quantile";
 
         writer.writeHelp(name, helpMessage);
         writer.writeType(name, type);
-        writer.writeSample(name, mapOf("quantile", "0.5", labelsCopy), snapshot.getMedian() * factor);
-        writer.writeSample(name, mapOf("quantile", "0.75", labelsCopy), snapshot.get75thPercentile() * factor);
-        writer.writeSample(name, mapOf("quantile", "0.95", labelsCopy), snapshot.get95thPercentile() * factor);
-        writer.writeSample(name, mapOf("quantile", "0.98", labelsCopy), snapshot.get98thPercentile() * factor);
-        writer.writeSample(name, mapOf("quantile", "0.99", labelsCopy), snapshot.get99thPercentile() * factor);
-        writer.writeSample(name, mapOf("quantile", "0.999", labelsCopy), snapshot.get999thPercentile() * factor);
+        writer.writeSample(quantileName, mapOf("quantile", "0.5", labelsCopy), snapshot.getMedian() * factor);
+        writer.writeSample(quantileName, mapOf("quantile", "0.75", labelsCopy), snapshot.get75thPercentile() * factor);
+        writer.writeSample(quantileName, mapOf("quantile", "0.95", labelsCopy), snapshot.get95thPercentile() * factor);
+        writer.writeSample(quantileName, mapOf("quantile", "0.98", labelsCopy), snapshot.get98thPercentile() * factor);
+        writer.writeSample(quantileName, mapOf("quantile", "0.99", labelsCopy), snapshot.get99thPercentile() * factor);
+        writer.writeSample(quantileName, mapOf("quantile", "0.999", labelsCopy), snapshot.get999thPercentile() * factor);
         writer.writeSample(name + "_min", labelsCopy, snapshot.getMin());
         writer.writeSample(name + "_max", labelsCopy, snapshot.getMax());
         writer.writeSample(name + "_median", labelsCopy, snapshot.getMedian());
@@ -93,11 +94,12 @@ class DropwizardMetricsExporter {
     private void writeMetered(String dropwizardName, Metered metered, Map<String, String> labels) throws IOException {
         String name = sanitizeMetricName(dropwizardName);
         Map<String, String> labelsCopy = new HashMap<>(labels);
+        String rateName = name + "_rate";
 
-        writer.writeSample(name, mapOf("rate", "m1", labelsCopy), metered.getOneMinuteRate());
-        writer.writeSample(name, mapOf("rate", "m5", labelsCopy), metered.getFiveMinuteRate());
-        writer.writeSample(name, mapOf("rate", "m15", labelsCopy), metered.getFifteenMinuteRate());
-        writer.writeSample(name, mapOf("rate", "mean", labelsCopy), metered.getMeanRate());
+        writer.writeSample(rateName, mapOf("rate", "m1", labelsCopy), metered.getOneMinuteRate());
+        writer.writeSample(rateName, mapOf("rate", "m5", labelsCopy), metered.getFiveMinuteRate());
+        writer.writeSample(rateName, mapOf("rate", "m15", labelsCopy), metered.getFifteenMinuteRate());
+        writer.writeSample(rateName, mapOf("rate", "mean", labelsCopy), metered.getMeanRate());
     }
 
     private Map<String, String> mapOf(String key, String value, Map<String, String> mapTo) {
