@@ -39,7 +39,7 @@ class DropwizardMetricsExporter {
         } else if (obj instanceof Boolean) {
             value = ((Boolean) obj) ? 1 : 0;
         } else {
-            LOG.warn("Invalid type for Gauge {}: {}", name, obj.getClass().getName());
+            LOG.trace("Invalid type for Gauge {}: {}", name, obj.getClass().getName());
             return;
         }
 
