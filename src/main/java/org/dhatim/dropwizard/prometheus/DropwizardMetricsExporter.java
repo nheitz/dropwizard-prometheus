@@ -83,12 +83,12 @@ class DropwizardMetricsExporter {
         writer.writeSample(quantileName, mapOf("quantile", "0.98", labelsCopy), snapshot.get98thPercentile() * factor);
         writer.writeSample(quantileName, mapOf("quantile", "0.99", labelsCopy), snapshot.get99thPercentile() * factor);
         writer.writeSample(quantileName, mapOf("quantile", "0.999", labelsCopy), snapshot.get999thPercentile() * factor);
-        writer.writeSample(name + "_min", labelsCopy, snapshot.getMin());
-        writer.writeSample(name + "_max", labelsCopy, snapshot.getMax());
-        writer.writeSample(name + "_median", labelsCopy, snapshot.getMedian());
-        writer.writeSample(name + "_mean", labelsCopy, snapshot.getMean());
-        writer.writeSample(name + "_stddev", labelsCopy, snapshot.getStdDev());
-        writer.writeSample(name + "_count", labelsCopy, count);
+        writer.writeSample(name + "_min", labels, snapshot.getMin() * factor);
+        writer.writeSample(name + "_max", labels, snapshot.getMax() * factor);
+        writer.writeSample(name + "_median", labels, snapshot.getMedian() * factor);
+        writer.writeSample(name + "_mean", labels, snapshot.getMean() * factor);
+        writer.writeSample(name + "_stddev", labels, snapshot.getStdDev() * factor);
+        writer.writeSample(name + "_count", labels, count);
     }
 
     private void writeMetered(String dropwizardName, Metered metered, Map<String, String> labels) throws IOException {
