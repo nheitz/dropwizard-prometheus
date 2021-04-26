@@ -64,7 +64,8 @@ class DropwizardMetricsExporter {
      * @throws IOException
      */
     public void writeHistogram(String dropwizardName, Histogram histogram, Map<String, String> labels) throws IOException {
-        writeSnapshotAndCount(dropwizardName, histogram.getSnapshot(), histogram.getCount(), 1.0, MetricType.SUMMARY,
+        writeSnapshotAndCount(dropwizardName, histogram.getSnapshot(), histogram.getCount(),
+                1.0D / TimeUnit.SECONDS.toMillis(1), MetricType.SUMMARY,
                 getHelpMessage(dropwizardName, histogram), labels);
     }
 
